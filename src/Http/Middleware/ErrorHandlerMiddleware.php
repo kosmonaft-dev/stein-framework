@@ -6,7 +6,7 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 
-class ErrorHandler implements MiddlewareInterface
+class ErrorHandlerMiddleware implements MiddlewareInterface
 {
 
     /**
