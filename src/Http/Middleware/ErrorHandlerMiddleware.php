@@ -5,6 +5,9 @@ namespace Stein\Framework\Http\Middleware;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
+use Stein\Framework\Http\Error\ApiCallException;
+use Stein\Framework\Http\Error\ProblemDetails;
+use Throwable;
 
 class ErrorHandlerMiddleware implements MiddlewareInterface
 {
@@ -16,13 +19,22 @@ class ErrorHandlerMiddleware implements MiddlewareInterface
     {
         try {
             return $handler->handle($request);
-        } catch (\Throwable $e) {
-            return new JsonResponse([
-                'status' => 500,
-                'title' => 'Internal Server Error',
-                'detail' => $e->getMessage(),
-                'instance' => $request->getUri()->getPath()
-            ], 500);
+        } catch (ApiCallException $e) {
+            $problem_details = new ProblemDetails();
+            $problem_details->status = $e->status_code;
+            $problem_details->title = $e->reason_phrase;
+            $problem_details->detail = $e->getMessage();
+            $problem_details->instance = $request->getUri()->getPath();
+
+            return new JsonResponse($problem_details);
+        } catch (Throwable $e) {
+            $problem_details = new ProblemDetails();
+            $problem_details->status = 500;
+            $problem_details->title = 'Internal Server Error';
+            $problem_details->detail = $e->getMessage();
+            $problem_details->instance = $request->getUri()->getPath();
+
+            return new JsonResponse($problem_details);
         }
     }
 }
