@@ -19,20 +19,23 @@ class ErrorHandlerMiddleware implements MiddlewareInterface
     {
         try {
             return $handler->handle($request);
-        } catch (ApiCallException $e) {
-            $problem_details = new ProblemDetails();
-            $problem_details->status = $e->status_code;
-            $problem_details->title = $e->reason_phrase;
-            $problem_details->detail = $e->getMessage();
-            $problem_details->instance = $request->getUri()->getPath();
-
-            return new JsonResponse($problem_details);
         } catch (Throwable $e) {
             $problem_details = new ProblemDetails();
-            $problem_details->status = 500;
-            $problem_details->title = 'Internal Server Error';
             $problem_details->detail = $e->getMessage();
             $problem_details->instance = $request->getUri()->getPath();
+            $problem_details->extensions = [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'code'=> $e->getCode()
+            ];
+
+            if ($e instanceof ApiCallException) {
+                $problem_details->status = $e->status_code;
+                $problem_details->title = $e->reason_phrase;
+            } else {
+                $problem_details->status = 500;
+                $problem_details->title = 'Internal Server Error';
+            }
 
             return new JsonResponse($problem_details);
         }

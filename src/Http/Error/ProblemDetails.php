@@ -10,6 +10,7 @@ class ProblemDetails implements \JsonSerializable
     public int $status;
     public string $detail;
     public string $instance;
+    public ?array $extensions;
 
     protected function getRFCSection(int $status_code): string
     {
@@ -128,7 +129,8 @@ class ProblemDetails implements \JsonSerializable
             'title' => $this->title,
             'status' => $this->status ?: $this->getReasonPhrase($this->status),
             'detail' => $this->detail,
-            'instance' => $this->instance
+            'instance' => $this->instance,
+            'extensions' => $this->extensions
         ]);
     }
 }
