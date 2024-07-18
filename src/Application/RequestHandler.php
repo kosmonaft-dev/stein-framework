@@ -15,6 +15,11 @@ class RequestHandler implements RequestHandlerInterface
         protected SplStack $stack = new SplStack()
     ) {}
 
+    public function getStack(): SplStack
+    {
+        return $this->stack;
+    }
+
     public function middleware(MiddlewareInterface $middleware): static
     {
         $this->stack->push($middleware);
