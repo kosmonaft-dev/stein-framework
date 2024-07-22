@@ -23,6 +23,12 @@ class ControllerLoader
         protected RouterInterface $router
     ) {}
 
+    public function loadRoutes()
+    {
+        $this->loadControllers();
+        $this->discoverControllers();
+    }
+
     protected function loadControllers(): void
     {
         foreach ($this->directories as $directory) {
