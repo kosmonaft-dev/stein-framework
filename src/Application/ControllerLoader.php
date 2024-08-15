@@ -18,6 +18,8 @@ use Stein\Framework\Router\RouterInterface;
 class ControllerLoader
 {
 
+    protected array $routes = [];
+
     public function __construct(
         protected array $directories,
         protected RouterInterface $router,
@@ -92,7 +94,7 @@ class ControllerLoader
                         $http_method = $http_method->newInstance();
 
                         /** @var HttpMethod $http_method */
-                        $this->router->addRoute(new RouterRoute(
+                        $this->addRoute(new RouterRoute(
                             $http_method->methods,
                             '/'.trim($route->path.'/'.$http_method->path, '/ '),
                             [$reflection->getName(), $method->getName()],
@@ -102,5 +104,11 @@ class ControllerLoader
                 }
             }
         }
+    }
+
+    protected function addRoute(RouterRoute $route): void
+    {
+        $this->routes[] = $route;
+        $this->router->addRoute($route);
     }
 }
