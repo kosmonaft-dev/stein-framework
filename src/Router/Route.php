@@ -2,9 +2,9 @@
 
 namespace Stein\Framework\Router;
 
-use Psr\Http\Server\RequestHandlerInterface;
+use JsonSerializable;
 
-class Route implements RouteInterface
+class Route implements RouteInterface, JsonSerializable
 {
 
     public function __construct(
@@ -19,6 +19,16 @@ class Route implements RouteInterface
             implode(':', $this->methods),
             $this->path
         );
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'methods' => $this->methods,
+            'path' => $this->path,
+            'handler' => $this->handler,
+            'name' => $this->name
+        ];
     }
 
     public function getPath(): string

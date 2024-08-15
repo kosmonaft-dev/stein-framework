@@ -30,10 +30,13 @@ class ControllerLoader
     public function loadRoutes()
     {
         if ($this->use_cache && file_exists($this->cache_file)) {
-            $this->routes = unserialize(file_get_contents($this->cache_file));
+            $routes = json_decode(file_get_contents($this->cache_file), true);
 
             $this->router->clear();
-            foreach ($this->routes as $route) {
+            foreach ($routes as $data) {
+                $route = new RouterRoute($data['methods'], $data['path'], $data['handler'], $data['name']);
+
+                $this->routes[] = $route;
                 $this->router->addRoute($route);
             }
 
@@ -44,7 +47,7 @@ class ControllerLoader
         $this->discoverControllers();
 
         if ($this->use_cache) {
-            file_put_contents($this->cache_file, serialize($this->routes));
+            file_put_contents($this->cache_file, json_encode($this->routes));
         }
     }
 
