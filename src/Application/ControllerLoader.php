@@ -20,13 +20,30 @@ class ControllerLoader
 
     public function __construct(
         protected array $directories,
-        protected RouterInterface $router
+        protected RouterInterface $router,
+        protected bool $use_cache = false,
+        protected ?string $cache_file = null
     ) {}
 
     public function loadRoutes()
     {
+        if ($this->use_cache && file_exists($this->cache_file)) {
+            $this->routes = unserialize(file_get_contents($this->cache_file));
+
+            $this->router->clear();
+            foreach ($this->routes as $route) {
+                $this->router->addRoute($route);
+            }
+
+            return;
+        }
+
         $this->loadControllers();
         $this->discoverControllers();
+
+        if ($this->use_cache) {
+            file_put_contents($this->cache_file, serialize($this->routes));
+        }
     }
 
     protected function loadControllers(): void
