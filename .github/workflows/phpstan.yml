@@ -1,0 +1,41 @@
+name: PHPStan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          # extensions: mbstring, intl, pdo, sqlite, zip, pcntl, bcmath, exif, gd, soap, xsl, xmlrpc, ldap, imap, tidy, xml, curl, intl, imagick, gmp, apcu, memcached, redis, mongodb, amqp, yaml, opcache, xdebug
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Allow Composer plugin pestphp/pest-plugin
+        run: composer config --no-plugins allow-plugins.pestphp/pest-plugin true
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Install PHPStan
+        run: composer require --dev phpstan/phpstan
+
+      - name: Run PHPStan
+        run: ./vendor/bin/phpstan analyse
