@@ -34,8 +34,5 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
-      - name: Install PHPStan
-        run: composer require --dev phpstan/phpstan
-
       - name: Run PHPStan
-        run: ./vendor/bin/phpstan analyse
+        run: ./vendor/bin/phpstan analyse src --no-progress --no-interaction
