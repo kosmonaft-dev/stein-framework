@@ -28,21 +28,3 @@ test('passes request to next handler if route result is not successful', functio
 
     expect($response)->toBeInstanceOf(ResponseInterface::class);
 });
-
-// TODO
-test('passes request to next handler if route result is successful', function () {
-    $matchedRoute = Mockery::mock();
-    $handler = ['some_handler', 'some_method'];
-
-    $this->router->shouldReceive('match')->once()->with($this->request)->andReturn($this->routeResult);
-    $this->routeResult->shouldReceive('isSuccess')->once()->andReturn(true);
-    $this->routeResult->shouldReceive('getMatchedRoute')->once()->andReturn($matchedRoute);
-    $matchedRoute->shouldReceive('getHandler')->once()->andReturn($handler);
-    $this->request->shouldReceive('withAttribute')->once()->with(RouteResultInterface::class, $this->routeResult)->andReturnSelf();
-    $this->request->shouldReceive('withAttribute')->once()->with(RouteHandler::class, Mockery::mock(RouteHandler::class))->andReturnSelf();
-    $this->handler->shouldReceive('handle')->once()->with($this->request)->andReturn(Mockery::mock(ResponseInterface::class));
-
-    $response = $this->middleware->process($this->request, $this->handler);
-
-    expect($response)->toBeInstanceOf(ResponseInterface::class);
-});
