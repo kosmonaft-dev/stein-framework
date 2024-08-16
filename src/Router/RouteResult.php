@@ -15,7 +15,7 @@ class RouteResult implements RouteResultInterface
 
     protected function __construct() {}
 
-    public static function fromRouteSuccess(RouteInterface $route, array $params = []): RouteResultInterface
+    final public static function fromRouteSuccess(RouteInterface $route, array $params = []): RouteResultInterface
     {
         $result = new static();
         $result->success = true;
@@ -25,7 +25,7 @@ class RouteResult implements RouteResultInterface
         return $result;
     }
 
-    public static function fromRouteFailure(array $methods): RouteResultInterface
+    final public static function fromRouteFailure(array $methods): RouteResultInterface
     {
         $result = new static();
         $result->success = false;
