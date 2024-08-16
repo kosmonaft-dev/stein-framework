@@ -4,7 +4,7 @@ namespace Stein\Framework\Router;
 
 use Psr\Container\ContainerInterface;
 
-class RouteResult implements RouteResultInterface
+final class RouteResult implements RouteResultInterface
 {
 
     protected RouteInterface $route;
@@ -15,7 +15,7 @@ class RouteResult implements RouteResultInterface
 
     protected function __construct() {}
 
-    final public static function fromRouteSuccess(RouteInterface $route, array $params = []): RouteResultInterface
+    public static function fromRouteSuccess(RouteInterface $route, array $params = []): RouteResultInterface
     {
         $result = new static();
         $result->success = true;
@@ -25,7 +25,7 @@ class RouteResult implements RouteResultInterface
         return $result;
     }
 
-    final public static function fromRouteFailure(array $methods): RouteResultInterface
+    public static function fromRouteFailure(array $methods): RouteResultInterface
     {
         $result = new static();
         $result->success = false;
