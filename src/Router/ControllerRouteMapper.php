@@ -11,11 +11,14 @@ use Stein\Framework\Attribute\RouteName;
 use Stein\Framework\Attribute\Route;
 use Stein\Framework\Router\Route as RouterRoute;
 use Symfony\Component\Finder\Finder;
+use function array_reduce, array_merge, iterator_to_array, file_exists, json_encode, file_put_contents, json_decode, trim, count;
 
 class ControllerRouteMapper
 {
 
+    /** @var class-string[] $controllers */
     protected array $controllers = [];
+    /** @var RouterRoute[] $routes */
     protected array $routes = [];
 
     public function __construct(
@@ -24,6 +27,10 @@ class ControllerRouteMapper
         protected bool $cache_disabled = false
     ) {}
 
+    /**
+     * @param class-string[] $controllers
+     * @return void
+     */
     public function mapByClassString(array $controllers): void
     {
         $this->controllers = $controllers;
@@ -80,11 +87,21 @@ class ControllerRouteMapper
         }
     }
 
+    /**
+     * @param ReflectionClass<object> $reflection
+     * @return bool
+     */
     protected function isController(ReflectionClass $reflection): bool
     {
         return count($reflection->getAttributes(Controller::class, ReflectionAttribute::IS_INSTANCEOF)) > 0;
     }
 
+    /**
+     * @param Route $route
+     * @param array<ReflectionMethod> $methods
+     * @param ReflectionClass<object> $reflection
+     * @return void
+     */
     protected function processRoute(Route $route, array $methods, ReflectionClass $reflection): void
     {
         foreach ($methods as $method) {
@@ -97,6 +114,14 @@ class ControllerRouteMapper
         }
     }
 
+    /**
+     * @param Route $route
+     * @param HttpMethod $httpMethod
+     * @param ReflectionMethod $method
+     * @param ReflectionClass<object> $reflection
+     * @param ReflectionAttribute<RouteName>|null $name
+     * @return void
+     */
     protected function addRouteFromMethod(Route $route, HttpMethod $httpMethod, ReflectionMethod $method, ReflectionClass $reflection, ?ReflectionAttribute $name): void
     {
         $this->addRoute(new RouterRoute(
@@ -115,7 +140,12 @@ class ControllerRouteMapper
 
     protected function loadRoutesFromCache(): void
     {
-        $this->routes = json_decode(file_get_contents($this->cache_file), true);
+        $content = file_get_contents($this->cache_file);
+        if ($content === false) {
+            return;
+        }
+
+        $this->routes = json_decode($content, true);
         foreach ($this->routes as $route) {
             $this->router->addRoute(new RouterRoute(
                 $route['methods'],

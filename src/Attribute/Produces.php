@@ -13,6 +13,10 @@ class Produces
     /** @var string[]  */
     public readonly array $additional_content_types;
 
+    /**
+     * @param string $content_type
+     * @param string[] $additional_content_types
+     */
     public function __construct(string $content_type, array $additional_content_types = [])
     {
         $this->content_type = $content_type;

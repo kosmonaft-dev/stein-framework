@@ -3,6 +3,7 @@
 namespace Stein\Framework\Application;
 
 use Psr\Http\Message\ResponseInterface;
+use function sprintf, header;
 
 class Emitter
 {

@@ -3,18 +3,26 @@
 namespace Stein\Framework\Router;
 
 use Psr\Container\ContainerInterface;
+use function count, is_array;
 
 final class RouteResult implements RouteResultInterface
 {
 
     protected RouteInterface $route;
+    /** @var array<string, string> $params */
     protected array $params = [];
     protected bool $success;
+    /** @var string[]|null $methods */
     protected ?array $methods = null;
     protected ContainerInterface $container;
 
     protected function __construct() {}
 
+    /**
+     * @param RouteInterface $route
+     * @param array<string, string> $params
+     * @return RouteResultInterface
+     */
     public static function fromRouteSuccess(RouteInterface $route, array $params = []): RouteResultInterface
     {
         $result = new static();
@@ -25,6 +33,10 @@ final class RouteResult implements RouteResultInterface
         return $result;
     }
 
+    /**
+     * @param string[] $methods
+     * @return RouteResultInterface
+     */
     public static function fromRouteFailure(array $methods): RouteResultInterface
     {
         $result = new static();
@@ -57,6 +69,9 @@ final class RouteResult implements RouteResultInterface
         return false;
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getMatchedParams(): array
     {
         return $this->params;

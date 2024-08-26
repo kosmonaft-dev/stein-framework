@@ -7,13 +7,13 @@ interface RouteResultInterface
 
     /**
      * @param RouteInterface $route
-     * @param array $params
+     * @param array<string, string> $params
      * @return RouteResultInterface
      */
     public static function fromRouteSuccess(RouteInterface $route, array $params = []): RouteResultInterface;
 
     /**
-     * @param array $methods
+     * @param string[] $methods
      * @return RouteResultInterface
      */
     public static function fromRouteFailure(array $methods): RouteResultInterface;
@@ -34,7 +34,7 @@ interface RouteResultInterface
     public function getMatchedRouteName();
 
     /**
-     * @return array
+     * @return array<string, string>
      */
     public function getMatchedParams(): array;
 

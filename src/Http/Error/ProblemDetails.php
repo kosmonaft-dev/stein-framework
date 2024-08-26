@@ -2,7 +2,10 @@
 
 namespace Stein\Framework\Http\Error;
 
-class ProblemDetails implements \JsonSerializable
+use JsonSerializable;
+use function array_filter;
+
+class ProblemDetails implements JsonSerializable
 {
 
     public string $type;
@@ -10,6 +13,7 @@ class ProblemDetails implements \JsonSerializable
     public int $status;
     public string $detail;
     public string $instance;
+    /** @var array<string, mixed>|null  */
     public ?array $extensions;
 
     protected function getRFCSection(int $status_code): string
@@ -104,9 +108,8 @@ class ProblemDetails implements \JsonSerializable
             431 => 'Request Header Fields Too Large',
             444 => 'Connection Closed Without Response',
             451 => 'Unavailable For Legal Reasons',
-            // SERVER ERROR
             499 => 'Client Closed Request',
-            500 => 'Internal Server Error',
+            // SERVER ERROR
             501 => 'Not Implemented',
             502 => 'Bad Gateway',
             503 => 'Service Unavailable',
@@ -126,11 +129,11 @@ class ProblemDetails implements \JsonSerializable
     {
         return array_filter([
             'type' => $this->getRFCSection($this->status),
-            'title' => $this->title,
-            'status' => $this->status ?: $this->getReasonPhrase($this->status),
-            'detail' => $this->detail,
-            'instance' => $this->instance,
-            'extensions' => $this->extensions
+            'title' => $this->title ?? $this->getReasonPhrase($this->status),
+            'status' => $this->status,
+            'detail' => $this->detail ?? null,
+            'instance' => $this->instance ?? null,
+            'extensions' => $this->extensions ?? null
         ]);
     }
 }

@@ -23,12 +23,12 @@ interface RouteInterface
     public function getName(): string;
 
     /**
-     * @return array
+     * @return array{0: string, 1: string}
      */
     public function getHandler(): array;
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getAllowedMethods(): array;
 

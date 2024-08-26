@@ -5,6 +5,7 @@ namespace Stein\Framework\Http\Middleware;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
+use function str_ends_with, rtrim;
 
 class TrailingSlashMiddleware implements MiddlewareInterface
 {

@@ -6,6 +6,7 @@ use Laminas\Diactoros\Response;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 use Stein\Framework\Router\RouteResultInterface;
+use function strtoupper, implode;
 
 class ImplicitOptionsMiddleware implements MiddlewareInterface
 {

@@ -5,6 +5,7 @@ namespace Stein\Framework\Http\Middleware;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 use SimpleXMLElement;
+use function strtolower, trim, explode, in_array, parse_str, json_decode, libxml_use_internal_errors, simplexml_load_string, libxml_clear_errors;
 
 class BodyParserMiddleware implements MiddlewareInterface
 {

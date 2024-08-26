@@ -2,25 +2,28 @@
 
 namespace Stein\Framework\Router;
 
-use Laminas\Diactoros\Response\HtmlResponse;
-use Laminas\Diactoros\Response\JsonResponse;
-use Laminas\Diactoros\Response\TextResponse;
-use Laminas\Diactoros\Response\XmlResponse;
+use Laminas\Diactoros\Response\{HtmlResponse, JsonResponse, TextResponse, XmlResponse};
 use Psr\Container\ContainerInterface;
 use ReflectionMethod;
+use ReflectionNamedType;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\RequestHandlerInterface;
 use Stein\Framework\Attribute\{FromBody, FromQuery, Produces, Required};
 use RuntimeException;
+use function count, call_user_func_array, trim;
 
 class RouteHandler implements RequestHandlerInterface
 {
 
     public function __construct(
+        /** @var array{0: string, 1: string} $handler */
         protected array $handler,
         protected ContainerInterface $container
     ) {}
 
+    /**
+     * @return array{0: string, 1: string}
+     */
     public function getHandler(): array
     {
         return $this->handler;
@@ -40,7 +43,12 @@ class RouteHandler implements RequestHandlerInterface
             // If the route matched, all parameters are supposed to be in request attributes
             $name = $parameter->getName();
             $value = $request->getAttribute($name);
-            $type = $parameter->getType()?->getName();
+
+            $type = null;
+            if ($parameter->getType() instanceof ReflectionNamedType) {
+                $type = $parameter->getType()->getName();
+            }
+
             $required = count($parameter->getAttributes(Required::class)) > 0;
 
             if ($value === null) {
@@ -85,9 +93,9 @@ class RouteHandler implements RequestHandlerInterface
         }
 
         /** @var Produces $attribute */
-        $attribute = $reflection->getAttributes(Produces::class)[0]?->newInstance();
+        $attribute = $attributes[0]->newInstance();
 
-        return match ($attribute->content_type) {
+        return match (trim($attribute->content_type)) {
             'application/json' => new JsonResponse($response),
             'application/xml', 'text/xml' => new XmlResponse($response),
             'text/html' => new HtmlResponse($response),

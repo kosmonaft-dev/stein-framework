@@ -11,9 +11,14 @@ use Attribute;
 class HttpMethod
 {
 
+    /** @var string[] $methods */
     public readonly array $methods;
     public readonly string $path;
 
+    /**
+     * @param string[] $methods
+     * @param string $path
+     */
     public function __construct(array $methods, string $path)
     {
         $this->methods = $methods;

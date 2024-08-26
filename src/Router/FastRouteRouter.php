@@ -2,18 +2,12 @@
 
 namespace Stein\Framework\Router;
 
-use FastRoute\{
-    Dispatcher,
-    RouteCollector,
-    RouteParser\Std
-};
+use FastRoute\{Dispatcher, RouteCollector, RouteParser\Std};
 use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
-use function FastRoute\{
-    cachedDispatcher,
-    simpleDispatcher
-};
+use function FastRoute\{cachedDispatcher, simpleDispatcher};
+use function sprintf, rawurldecode, implode, preg_match;
 
 class FastRouteRouter implements RouterInterface
 {
@@ -102,6 +96,11 @@ class FastRouteRouter implements RouterInterface
         );
     }
 
+    /**
+     * @param string $name
+     * @param array<string, string> $substitutions
+     * @return string
+     */
     public function generateUri(string $name, array $substitutions = []): string
     {
         if (!isset($this->routes[$name])) {
@@ -129,6 +128,11 @@ class FastRouteRouter implements RouterInterface
         ));
     }
 
+    /**
+     * @param string[] $parts
+     * @param array<string, string> $substitutions
+     * @return bool
+     */
     protected function routeCanBeGenerated(array $parts, array $substitutions): bool
     {
         foreach ($parts as $part) {
@@ -144,6 +148,11 @@ class FastRouteRouter implements RouterInterface
         return true;
     }
 
+    /**
+     * @param string[] $parts
+     * @param array<string, string> $substitutions
+     * @return string
+     */
     protected function buildUri(array $parts, array $substitutions): string
     {
         $uri = '';

@@ -7,6 +7,7 @@ use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 use Stein\Framework\Router\RouteResultInterface;
 use Stein\Framework\Router\RouterInterface;
+use function strtoupper;
 
 class ImplicitHeadMiddleware implements MiddlewareInterface
 {

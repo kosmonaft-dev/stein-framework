@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface RouterInterface
 {
+
     /**
      * @param RouteInterface $route
      * @return void
@@ -32,7 +33,7 @@ interface RouterInterface
 
     /**
      * @param string $name
-     * @param array $substitutions
+     * @param array<string, string> $substitutions
      * @return string
      * @throws InvalidArgumentException If the route name is unknown.
      */

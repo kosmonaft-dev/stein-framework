@@ -3,13 +3,16 @@
 namespace Stein\Framework\Router;
 
 use JsonSerializable;
+use function array_map, array_filter, is_string, strtoupper, sprintf, implode, in_array;
 
 class Route implements RouteInterface, JsonSerializable
 {
 
     public function __construct(
+        /** @var string[] $methods */
         protected array $methods,
         protected string $path,
+        /** @var array{0: string, 1: string} $handler */
         protected array $handler,
         protected ?string $name = null
     ) {
@@ -21,6 +24,9 @@ class Route implements RouteInterface, JsonSerializable
         );
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function jsonSerialize(): array
     {
         return [
@@ -46,6 +52,9 @@ class Route implements RouteInterface, JsonSerializable
         return $this->name;
     }
 
+    /**
+     * @return array{0: string, 1: string}
+     */
     public function getHandler(): array
     {
         return $this->handler;

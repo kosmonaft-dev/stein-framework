@@ -12,9 +12,13 @@ class RequestHandler implements RequestHandlerInterface
 {
 
     public function __construct(
+        /** @var SplStack<MiddlewareInterface> $stack */
         protected SplStack $stack = new SplStack()
     ) {}
 
+    /**
+     * @return SplStack<MiddlewareInterface>
+     */
     public function getStack(): SplStack
     {
         return $this->stack;
