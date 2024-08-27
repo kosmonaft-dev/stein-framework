@@ -64,6 +64,8 @@ class ControllerRouteMapper
             return;
         }
 
+        $routes_to_process = [];
+
         foreach ($this->controllers as $class) {
             $reflection = new ReflectionClass($class);
             if (!$this->isController($reflection)) {
@@ -78,8 +80,15 @@ class ControllerRouteMapper
             $methods = $reflection->getMethods(ReflectionMethod::IS_PUBLIC);
 
             foreach ($routes as $route) {
-                $this->processRoute($route->newInstance(), $methods, $reflection);
+                $routes_to_process[] = [$route->newInstance(), $methods, $reflection];
             }
+        }
+
+        // Sort by priority
+        uasort($routes_to_process, fn($route_a, $route_b) => $route_b[0]->priority <=> $route_a[0]->priority);
+
+        foreach ($routes_to_process as $process) {
+            $this->processRoute(...$process);
         }
 
         if ($this->cache_file && !$this->cache_disabled) {
