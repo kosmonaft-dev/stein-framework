@@ -1,6 +1,6 @@
 <?php
 
-namespace P\Tests\Unit\Router\Asset;
+namespace Test\Unit\Router\Asset;
 
 use Stein\Framework\Attribute\Controller;
 use Stein\Framework\Attribute\HttpGet;

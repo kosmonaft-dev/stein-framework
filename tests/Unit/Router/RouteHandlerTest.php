@@ -1,6 +1,6 @@
 <?php
 
-namespace P\Tests\Unit\Router;
+namespace Test\Unit\Router;
 
 use Laminas\Diactoros\Response\JsonResponse;
 use League\Container\Container;

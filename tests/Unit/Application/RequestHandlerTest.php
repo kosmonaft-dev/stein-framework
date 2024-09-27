@@ -1,6 +1,6 @@
 <?php
 
-namespace P\Tests\Unit\Application;
+namespace Test\Unit\Application;
 
 use Mockery;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};

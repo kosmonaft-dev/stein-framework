@@ -1,6 +1,6 @@
 <?php
 
-namespace P\Tests\Unit\Router;
+namespace Test\Unit\Router;
 
 use InvalidArgumentException;
 use Mockery;

@@ -9,7 +9,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "P\\Tests\\": "tests/"
+            "Test\\": "tests/"
         }
     },
     "authors": [
@@ -34,8 +34,7 @@
         "pestphp/pest": "^2.34",
         "mockery/mockery": "^1.6",
         "league/container": "^4.2",
-        "phpstan/phpstan": "^1.11",
-        "nikic/php-parser": "^4"
+        "phpstan/phpstan": "^1.11"
     },
     "config": {
         "allow-plugins": {
