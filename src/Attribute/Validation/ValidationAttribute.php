@@ -7,7 +7,7 @@ use Stein\Framework\Attribute\Validation\Exception\ValidationException;
 abstract class ValidationAttribute
 {
 
-    public readonly string $error_message;
+    public function __construct(protected readonly string $error_message) {}
 
     abstract public function isValid(mixed $value): bool;
 
