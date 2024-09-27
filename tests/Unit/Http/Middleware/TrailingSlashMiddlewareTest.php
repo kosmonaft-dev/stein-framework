@@ -1,5 +1,8 @@
 <?php
 
+namespace Test\Unit\Http\Middleware;
+
+use Mockery;
 use Laminas\Diactoros\Uri;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Mockery\MockInterface;

@@ -4,13 +4,15 @@ namespace Stein\Framework\Router;
 
 use Laminas\Diactoros\Response\{HtmlResponse, JsonResponse, TextResponse, XmlResponse};
 use Psr\Container\ContainerInterface;
-use ReflectionMethod;
-use ReflectionNamedType;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\RequestHandlerInterface;
-use Stein\Framework\Attribute\{FromBody, FromQuery, Produces, Required};
+use ReflectionMethod;
+use ReflectionNamedType;
 use RuntimeException;
-use function count, call_user_func_array, trim;
+use Stein\Framework\Attribute\{FromBody, FromQuery, Produces, Validation\Required};
+use function call_user_func_array;
+use function count;
+use function trim;
 
 class RouteHandler implements RequestHandlerInterface
 {

@@ -1,5 +1,9 @@
 <?php
 
+namespace Test\Unit\Router;
+
+use InvalidArgumentException;
+use Mockery;
 use Psr\Http\Message\ServerRequestInterface;
 use Stein\Framework\Router\{FastRouteRouter, RouteInterface, RouteResultInterface};
 

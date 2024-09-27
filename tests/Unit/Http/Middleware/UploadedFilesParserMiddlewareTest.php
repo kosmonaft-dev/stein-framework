@@ -1,5 +1,8 @@
 <?php
 
+namespace Test\Unit\Http\Middleware;
+
+use Mockery;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface, UploadedFileInterface};
 use Psr\Http\Server\RequestHandlerInterface;
 use Stein\Framework\Http\Middleware\UploadedFilesParserMiddleware;

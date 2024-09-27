@@ -1,10 +1,12 @@
 <?php
 
+namespace Test\Unit\Router;
+
+use Mockery;
 use Stein\Framework\Router\ControllerRouteMapper;
 use Stein\Framework\Router\RouterInterface;
 use Stein\Framework\Router\Route as RouterRoute;
-
-require_once __DIR__ . '/Asset/SampleController.php';
+use Test\Unit\Router\Asset\SampleController;
 
 beforeEach(function () {
     $this->router = Mockery::mock(RouterInterface::class);
@@ -29,7 +31,7 @@ test('mapByDirectory adds routes to the router', function () {
 
     $directory = __DIR__ . '/Asset';
 
-    $this->mapper->mapByDirectory($directory, '');
+    $this->mapper->mapByDirectory($directory, 'Test\\Unit\\Router\\Asset\\');
 });
 
 test('loadRoutesFromCache loads routes from cache file', function () {

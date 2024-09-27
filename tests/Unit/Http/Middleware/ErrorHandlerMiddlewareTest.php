@@ -1,5 +1,8 @@
 <?php
 
+namespace Test\Unit\Http\Middleware;
+
+use Mockery;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

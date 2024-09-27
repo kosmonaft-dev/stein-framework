@@ -1,7 +1,11 @@
 <?php
 
+namespace Test\Unit\Http\Middleware;
+
+use Mockery;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface, StreamInterface};
 use Psr\Http\Server\RequestHandlerInterface;
+use SimpleXMLElement;
 use Stein\Framework\Http\Middleware\BodyParserMiddleware;
 
 beforeEach(function () {
@@ -68,9 +72,9 @@ test('application/xml content type is parsed', function () {
     $this->request->shouldReceive('getBody')->andReturn($stream);
 
     $this->request->shouldReceive('withParsedBody')->once()->andReturnUsing(function ($body) {
-        expect($body)->toBeInstanceOf(SimpleXMLElement::class);
-        expect((string)$body->key)->toBe('value');
-        expect((string)$body->anotherKey)->toBe('anotherValue');
+        expect($body)->toBeInstanceOf(SimpleXMLElement::class)
+            ->and((string)$body->key)->toBe('value')
+            ->and((string)$body->anotherKey)->toBe('anotherValue');
         return $this->request;
     });
 
