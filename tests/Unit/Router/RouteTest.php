@@ -1,5 +1,7 @@
 <?php
 
+namespace P\Tests\Unit\Router;
+
 use Stein\Framework\Router\Route;
 
 beforeEach(function () {
@@ -20,8 +22,4 @@ test('gets the allowed methods', function () {
 
 test('gets the handler', function () {
     expect($this->route->getHandler())->toBe(['TestController', 'test']);
-});
-
-afterEach(function () {
-    Mockery::close();
 });

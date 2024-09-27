@@ -1,10 +1,12 @@
 <?php
 
+namespace P\Tests\Unit\Router;
+
+use Mockery;
+use P\Tests\Unit\Router\Asset\SampleController;
 use Stein\Framework\Router\ControllerRouteMapper;
 use Stein\Framework\Router\RouterInterface;
 use Stein\Framework\Router\Route as RouterRoute;
-
-require_once __DIR__ . '/Asset/SampleController.php';
 
 beforeEach(function () {
     $this->router = Mockery::mock(RouterInterface::class);

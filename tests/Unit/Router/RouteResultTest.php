@@ -1,5 +1,8 @@
 <?php
 
+namespace P\Tests\Unit\Router;
+
+use Mockery;
 use Stein\Framework\Router\RouteResult;
 use Stein\Framework\Router\RouteInterface;
 

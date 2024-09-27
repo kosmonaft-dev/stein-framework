@@ -1,7 +1,12 @@
 <?php
 
+namespace P\Tests\Unit\Application;
+
+use Mockery;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\MiddlewareInterface;
+use RuntimeException;
+use SplStack;
 use Stein\Framework\Application\RequestHandler;
 
 beforeEach(function () {

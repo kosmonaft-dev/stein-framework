@@ -1,5 +1,8 @@
 <?php
 
+namespace P\Tests\Unit\Application;
+
+use Mockery;
 use Psr\Http\Message\{ResponseInterface, StreamInterface};
 use Stein\Framework\Application\Emitter;
 
